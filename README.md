@@ -1,1 +1,1 @@
-##simple bookstore app using nodejs and nextjs
+## simple bookstore app using nodejs and nextjs
