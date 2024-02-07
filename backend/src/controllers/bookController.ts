@@ -1,5 +1,8 @@
 import { Request, Response, Router } from "express";
 import { BookService } from "../services/bookService";
+import { plainToInstance } from "class-transformer";
+import { validate } from "class-validator";
+import { CreateBookDto } from "../dtos/CreateBookDto";
 
 const router = Router();
 const bookService = new BookService();
@@ -80,8 +83,19 @@ router.get("/", async (req: Request, res: Response) => {
  *               $ref: '#/components/schemas/Book'
  */
 router.post("/", async (req: Request, res: Response) => {
+  // Transform the request body into an instance of CreateBookDto
+  const bookDetails = plainToInstance(CreateBookDto, req.body);
+
+  // Perform validation
+  const errors = await validate(bookDetails);
+
+  if (errors.length > 0) {
+    // If validation errors exist, return them
+    return res.status(400).json(errors);
+  }
+
   try {
-    const book = await bookService.createBook(req.body);
+    const book = await bookService.createBook(bookDetails);
     res.status(201).json(book);
   } catch (error: unknown) {
     if (error instanceof Error) {

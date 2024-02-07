@@ -15,11 +15,8 @@ export class CreateBookDto {
     cover_image_url: string;
 
     @IsNotEmpty()
-    @IsDecimal()
     point: number;
 
     @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => Number)
     tags: number[]; // Array of tag IDs
 }
