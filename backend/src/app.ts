@@ -3,12 +3,19 @@ import bookRouter from './controllers/bookController';
 import tagRouter from './controllers/tagController';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
+import cors from 'cors';
 
 //database
 import { AppDataSource } from './data-source';
 import { bookSchema } from './swaggerDefinitions';
 
 const app: Express = express();
+
+// CORS configuration
+app.use(cors({
+  origin: 'http://localhost:3001' // Adjust this to match the origin of your frontend app
+}));
+
 
 app.use(express.json());
 
