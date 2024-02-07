@@ -10,6 +10,11 @@ export class BookRepository {
     });
   }
 
+  async findById(id: number): Promise<Book | null> {
+    const bookRepository = AppDataSource.getRepository(Book);
+    return bookRepository.findOneBy({id});;
+  }
+
   async createBook(bookDetails: Partial<Book>): Promise<Book> {
     const bookRepository = AppDataSource.getRepository(Book);
     const book = bookRepository.create(bookDetails);

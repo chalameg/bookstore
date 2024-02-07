@@ -1,17 +1,18 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineClose } from "react-icons/ai";
 import { MyContext } from "@/store/context";
 
 
-const Navbar = () => {
+const Navbar : FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const {isLoggedIn, setIsLoggedIn} = useContext(MyContext);
 
   const navLinks = [
     { href: "/", label: "Home" },
+    { href: "/books", label: "Books" },
     { href: "orders", label: "Orders" }
   ];
 

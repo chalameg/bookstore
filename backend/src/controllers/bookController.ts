@@ -62,6 +62,22 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const book = await bookService.getBookById(Number(id));
+    res.json(book);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+      res.status(500).send(error.message);
+    } else {
+      // Handle cases where the error is not an instance of Error
+      res.status(500).send("An unknown error occurred");
+    }
+  }
+});
+
 /**
  * @swagger
  * /api/books:

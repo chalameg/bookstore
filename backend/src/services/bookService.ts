@@ -27,6 +27,10 @@ export class BookService {
     }
   }
 
+  async getBookById(id: number): Promise<Book | null> {
+    return this.bookRepository.findById(id);
+  }
+
   async createBook(bookDetails: CreateBookDto): Promise<Book> {
     // Extract tag IDs from the bookDetails DTO
     const tagIds = bookDetails.tags;
