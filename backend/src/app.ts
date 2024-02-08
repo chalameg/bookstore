@@ -13,7 +13,7 @@ const app: Express = express();
 
 // CORS configuration
 app.use(cors({
-  origin: 'http://localhost:3001' // Adjust this to match the origin of your frontend app
+  origin: ['http://localhost:3001', 'https://bookstore-taupe-nine.vercel.app']
 }));
 
 app.use(express.json());
