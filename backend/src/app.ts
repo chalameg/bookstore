@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import bookRouter from './controllers/bookController';
 import tagRouter from './controllers/tagController';
 import customerRouter from './controllers/customerController';
+import orderRouter from './controllers/orderController';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 
@@ -24,10 +25,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/books', bookRouter);
 app.use('/api/tags', tagRouter);
 app.use('/api/customers', customerRouter);
+app.use('/api/orders', orderRouter);
 
 // Example route to test if the server is working
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Welcome to bookstore api! please got to /api-docs for our api docs');
 });
 
 // Initialize database connection then start the server
