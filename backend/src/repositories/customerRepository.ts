@@ -18,6 +18,11 @@ export class CustomerRepository {
         return customerRepository.findOneBy({ id });
     }
 
+    async findByUsername(username: string): Promise<Customer | null> {
+        const customerRepository = AppDataSource.getRepository(Customer);
+        return customerRepository.findOneBy({ username });
+    }
+
     async updateCustomer(id: number, customerDetails: Partial<Customer>): Promise<Customer | null> {
         const customerRepository = AppDataSource.getRepository(Customer);
         await customerRepository.update(id, customerDetails);

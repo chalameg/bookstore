@@ -5,9 +5,12 @@ export class Customer {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        type: 'int',
+        default: 100 // Set default points to 100
+    })
     points: number;
 
-    @Column()
+    @Column({ unique: true }) // Ensure username is unique
     username: string;
 }

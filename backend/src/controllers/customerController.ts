@@ -75,6 +75,52 @@ router.get("/", async (req: Request, res: Response) => {
 
 /**
  * @swagger
+ * /api/customers/findByUsername:
+ *   get:
+ *     summary: Find a customer by username
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The username of the customer to find
+ *     responses:
+ *       200:
+ *         description: Customer found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Customer'
+ *       404:
+ *         description: Customer not found
+ */
+router.get("/findByUsername", async (req: Request, res: Response) => {
+    const { username } = req.query;
+
+    if (typeof username !== 'string') {
+        return res.status(400).send("Invalid username");
+    }
+
+    try {
+        const customer = await customerService.getCustomerByUsername(username);
+        if (customer) {
+            res.json(customer);
+        } else {
+            res.status(404).send("Customer not found");
+        }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.error(error.message);
+            res.status(500).send(error.message);
+        } else {
+            res.status(500).send("An unknown error occurred");
+        }
+    }
+});
+
+/**
+ * @swagger
  * /api/customers/{id}:
  *   get:
  *     summary: Get a customer by ID

@@ -35,6 +35,6 @@ export const customerSchema = {
         description: "The points accumulated by the customer."
       }
     },
-    required: ["username", "points"]
+    required: ["username"]
   }
 };

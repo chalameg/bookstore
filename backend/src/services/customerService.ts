@@ -20,6 +20,10 @@ export class CustomerService {
         return this.customerRepository.getCustomerById(id);
     }
 
+    async getCustomerByUsername(username: string): Promise<Customer | null> {
+        return this.customerRepository.findByUsername(username);
+    }
+
     async updateCustomer(id: number, customerDetails: Partial<Customer>): Promise<Customer | null> {
         return this.customerRepository.updateCustomer(id, customerDetails);
     }

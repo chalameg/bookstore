@@ -3,6 +3,8 @@ import React, { FC, useContext, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineClose } from "react-icons/ai";
 import { MyContext } from "@/store/context";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 
 const Navbar : FC = () => {
@@ -13,9 +15,17 @@ const Navbar : FC = () => {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/books", label: "Books" },
-    { href: "orders", label: "Orders" }
+    { href: "/orders", label: "Orders" }
   ];
+  const router = useRouter();
 
+  // Logout function
+  const logout = () => {
+    localStorage.removeItem('username');
+    setIsLoggedIn(false);
+    router.push('/login'); 
+
+  }
   return (
     <>
       <header className="px-4 sm:px-32  py-2 z-10 w-full bg-[#0F131FB2] fixed">
@@ -35,8 +45,9 @@ const Navbar : FC = () => {
                 </a>
               </li>
             ))}
+            {isLoggedIn ? <button onClick={logout}>logout</button> : <Link href={"/login"}><button>Login</button></Link>}
+          
           </ul>
-
           <div
             className="hidden max-lg:block cursor-pointer"
             onClick={() => {
