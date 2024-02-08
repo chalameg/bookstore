@@ -1,5 +1,5 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import { bookSchema, customerSchema, tagSchema } from './swaggerDefinitions';
+import { bookSchema, customerSchema, tagSchema, orderSchema } from './swaggerDefinitions';
 
 const swaggerDefinition = {
   openapi: '3.0.0',
@@ -12,12 +12,13 @@ const swaggerDefinition = {
     schemas: {
         ...bookSchema,
         ...customerSchema,
-        ...tagSchema
+        ...tagSchema,
+        ...orderSchema
       }
     },
   servers: [
     {
-      url: 'http://localhost:3000/',
+      url: 'https://bookstorebackend-ii1w.onrender.com/',
     },
   ],
 };

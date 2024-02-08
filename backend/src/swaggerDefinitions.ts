@@ -56,3 +56,34 @@ export const tagSchema = {
   }
 };
 
+
+export const orderSchema = {
+  Order: {
+    type: "object",
+    properties: {
+      id: {
+        type: "integer",
+        description: "The auto-generated ID of the order."
+      },
+      customerId: {
+        type: "integer",
+        description: "The ID of the customer who placed the order."
+      },
+      bookId: {
+        type: "integer",
+        description: "The ID of the book that is ordered."
+      },
+      orderStatus: {
+        type: "string",
+        description: "The status of the order (e.g., 'pending', 'completed', 'cancelled')."
+      },
+      createdAt: {
+        type: "string",
+        format: "date-time",
+        description: "The timestamp when the order was placed."
+      }
+    },
+    required: ["customerId", "bookId", "orderStatus"]
+  }
+};
+
