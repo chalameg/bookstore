@@ -9,26 +9,40 @@ const bookService = new BookService();
 
 /**
  * @swagger
+ * tags:
+ *   name: Books
+ *   description: Books management
+ */
+
+/**
+ * @swagger
  * /api/books:
  *   get:
  *     summary: Get a list of books
- *     description: Retrieve a list of books with optional pagination.
+ *     tags: [Books]
+ *     description: Retrieve a list of books with optional pagination and tag filtering.
  *     parameters:
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
  *         required: false
- *         description: Page number
+ *         description: Page number for pagination.
  *       - in: query
  *         name: pageSize
  *         schema:
  *           type: integer
  *         required: false
- *         description: Number of items per page
+ *         description: Number of items per page for pagination.
+ *       - in: query
+ *         name: tags
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Comma-separated list of tag IDs to filter the books by tags.
  *     responses:
  *       200:
- *         description: A list of books
+ *         description: A list of books, optionally filtered by tags.
  *         content:
  *           application/json:
  *             schema:
@@ -49,7 +63,11 @@ router.get("/", async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const pageSize = parseInt(req.query.pageSize as string) || 10;
-    const books = await bookService.getBooks(page, pageSize);
+    const tagsQuery = req.query.tags as string;
+
+    const tagIds = tagsQuery ? tagsQuery.split(',').map(tag => parseInt(tag)).filter(tag => !isNaN(tag)) : undefined;
+
+    const books = await bookService.getBooks(page, pageSize, tagIds);
     res.json(books);
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -62,11 +80,13 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+
 /**
  * @swagger
  * /api/books/{id}:
  *   get:
  *     summary: Get a book by ID
+ *     tags: [Books]
  *     description: Retrieves detailed information about a book by its ID.
  *     parameters:
  *       - in: path
@@ -106,6 +126,7 @@ router.get("/:id", async (req: Request, res: Response) => {
  * /api/books:
  *   post:
  *     summary: Add a new book
+ *     tags: [Books]
  *     description: Adds a new book to the bookstore. The ID is auto-generated and should not be provided.
  *     requestBody:
  *       required: true
@@ -180,6 +201,7 @@ router.post("/", async (req: Request, res: Response) => {
  * /api/books/{id}:
  *   put:
  *     summary: Update a book
+ *     tags: [Books]
  *     description: Updates the details of an existing book.
  *     parameters:
  *       - in: path
@@ -223,6 +245,7 @@ router.put("/:id", async (req: Request, res: Response) => {
  * /api/books/{id}:
  *   delete:
  *     summary: Delete a book
+ *     tags: [Books]
  *     description: Deletes a book from the bookstore.
  *     parameters:
  *       - in: path

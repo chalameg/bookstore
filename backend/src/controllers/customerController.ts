@@ -7,9 +7,17 @@ const customerService = new CustomerService();
 
 /**
  * @swagger
+ * tags:
+ *   name: Customers
+ *   description: Customer management
+ */
+
+/**
+ * @swagger
  * /api/customers:
  *   post:
  *     summary: Create a new customer
+ *     tags: [Customers]
  *     description: Adds a new customer to the system.
  *     requestBody:
  *       required: true
@@ -51,6 +59,7 @@ router.post("/", async (req: Request, res: Response) => {
  * /api/customers:
  *   get:
  *     summary: Get all customers
+ *     tags: [Customers]
  *     description: Retrieves a list of all customers.
  *     responses:
  *       200:
@@ -78,6 +87,7 @@ router.get("/", async (req: Request, res: Response) => {
  * /api/customers/findByUsername:
  *   get:
  *     summary: Find a customer by username
+ *     tags: [Customers]
  *     parameters:
  *       - in: query
  *         name: username
@@ -124,6 +134,7 @@ router.get("/findByUsername", async (req: Request, res: Response) => {
  * /api/customers/{id}:
  *   get:
  *     summary: Get a customer by ID
+ *     tags: [Customers]
  *     description: Retrieves detailed information about a customer by their ID.
  *     parameters:
  *       - in: path
@@ -163,6 +174,7 @@ router.get("/:id", async (req: Request, res: Response) => {
  * /api/customers/{id}:
  *   put:
  *     summary: Update a customer
+ *     tags: [Customers]
  *     description: Updates the information of an existing customer.
  *     parameters:
  *       - in: path
@@ -209,6 +221,7 @@ router.put("/:id", async (req: Request, res: Response) => {
  * /api/customers/{id}:
  *   delete:
  *     summary: Delete a customer
+ *     tags: [Customers]
  *     description: Deletes an existing customer from the system.
  *     parameters:
  *       - in: path

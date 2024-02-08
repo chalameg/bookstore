@@ -38,3 +38,21 @@ export const customerSchema = {
     required: ["username"]
   }
 };
+
+export const tagSchema = {
+  Tag: {
+    type: "object",
+    properties: {
+      id: {
+        type: "integer",
+        description: "The auto-generated ID of the tag."
+      },
+      name: {
+        type: "string",
+        description: "The name of the tag."
+      },
+    },
+    required: ["name"]
+  }
+};
+

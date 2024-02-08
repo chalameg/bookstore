@@ -35,8 +35,8 @@ const Navbar : FC = () => {
           </a>
 
           <ul className="flex-1 flex justify-end items-center gap-16 max-lg:hidden">
-            {navLinks.map((item) => (
-              <li key={item.label}>
+            {navLinks.map((item, index) => (
+              <li key={index}>
                 <a
                   href={item.href}
                   className="font-montserrat leading-normal text-sm text-slate-gray"
@@ -70,8 +70,8 @@ const Navbar : FC = () => {
               <AiOutlineClose className="text-4xl" />
             </div>
             <ul className=" lg:hidden flex flex-col items-center justify-center h-full ">
-              {navLinks.map((item) => (
-                <li key={item.label}>
+              {navLinks.map((item, index) => (
+                <li key={index}>
                   <a
                     href={item.href}
                     className="font-montserrat leading-normal text-lg text-slate-gray"
@@ -80,6 +80,7 @@ const Navbar : FC = () => {
                   </a>
                 </li>
               ))}
+              {isLoggedIn ? <button onClick={logout}>logout</button> : <Link href={"/login"}><button>Login</button></Link>}
             </ul>
           </nav>
         </div>

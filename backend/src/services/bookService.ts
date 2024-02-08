@@ -13,9 +13,9 @@ export class BookService {
     this.tagRepository = new TagRepository();
   }
 
-  async getBooks(page: number = 1, pageSize: number = 10) {
+  async getBooks(page: number = 1, pageSize: number = 10, tagIds?: number[]) {
     try {
-      const [books, total] = await this.bookRepository.getBooks(page, pageSize);
+      const [books, total] = await this.bookRepository.getBooks(page, pageSize, tagIds);
       return {
         data: books,
         total,

@@ -1,5 +1,5 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import { bookSchema, customerSchema } from './swaggerDefinitions';
+import { bookSchema, customerSchema, tagSchema } from './swaggerDefinitions';
 
 const swaggerDefinition = {
   openapi: '3.0.0',
@@ -11,7 +11,8 @@ const swaggerDefinition = {
   components: {
     schemas: {
         ...bookSchema,
-        ...customerSchema
+        ...customerSchema,
+        ...tagSchema
       }
     },
   servers: [

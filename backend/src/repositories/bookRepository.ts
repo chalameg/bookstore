@@ -2,15 +2,22 @@ import { AppDataSource } from "../data-source";
 import { Book } from "../entities/Book";
 
 export class BookRepository {
-  async getBooks(page: number, pageSize: number): Promise<[Book[], number]> {
+  async getBooks(page: number, pageSize: number, tagIds?: number[]): Promise<[Book[], number]> {
     const bookRepository = AppDataSource.getRepository(Book);
-    return bookRepository.findAndCount({
-      relations: {
-        tags: true, // Make sure to load the tags relation
-      },
-      take: pageSize,
-      skip: (page - 1) * pageSize,
-    });
+    const queryBuilder = bookRepository.createQueryBuilder("book");
+  
+    queryBuilder.leftJoinAndSelect("book.tags", "tag");
+  
+    if (tagIds && tagIds.length > 0) {
+      queryBuilder.where("tag.id IN (:...tagIds)", { tagIds });
+    }
+  
+    queryBuilder.take(pageSize);
+    queryBuilder.skip((page - 1) * pageSize);
+  
+    const books = await queryBuilder.getManyAndCount();
+  
+    return books;
   }
 
   async findById(id: number): Promise<Book | null> {

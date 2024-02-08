@@ -8,21 +8,58 @@ const Books : FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
+  const [selectedTags, setSelectedTags] = useState<number[]>([]);
+
 
   useEffect(() => {
+    fetchTags();
     fetchBooks();
   }, []);
-
-  const fetchBooks = async () => {
+  
+  const fetchTags = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/books?page=${page}`);
-      setBooks([...books, ...response.data.data]);
+      const response = await axios.get('http://localhost:3000/api/tags'); 
+      setTags(response.data);
+    } catch (error) {
+      console.error('Failed to fetch tags', error);
+    }
+  };  
+
+  const fetchBooks = async (newPage?: number) => {
+    const currentPage = newPage ?? page; // Use newPage if provided, otherwise use the current page state
+    try {
+      const tagsQuery = selectedTags.join(',');
+      const response = await axios.get(`http://localhost:3000/api/books?page=${currentPage}&tags=${tagsQuery}`);
+      if (currentPage === 1) {
+        setBooks(response.data.data); // Reset books for the new filter
+      } else {
+        setBooks(prevBooks => [...prevBooks, ...response.data.data]);
+      }
       setPage(prevPage => prevPage + 1);
-      setHasMore(page < response.data.lastPage);
+      setHasMore(currentPage < response.data.lastPage);
     } catch (error) {
       console.error('Failed to fetch books', error);
     }
   };
+  
+  
+
+  const handleTagChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const tagId = Number(event.target.value);
+    if (event.target.checked) {
+      setSelectedTags([...selectedTags, tagId]);
+    } else {
+      setSelectedTags(selectedTags.filter((id) => id !== tagId));
+    }
+  }; 
+  
+  useEffect(() => {
+    setBooks([]);
+    fetchBooks(1); // Fetch the first page of books with the new tags
+    setPage(2); // Since you're fetching the first page, the next page to fetch would be page 2
+  }, [selectedTags]); // Re-fetch books when selectedTags changes
+  
 
   return (
     <div className='flex gap-2'>
@@ -31,6 +68,19 @@ const Books : FC = () => {
         <span>Filters</span>
 
         <div>Tags</div>
+        {tags.map((tag, index) => (
+          <div key={index}>
+            <input
+              type="checkbox"
+              id={`tag-${index}`}
+              name="tags"
+              value={tag.id}
+              onChange={handleTagChange}
+            />
+            <label htmlFor={`tag-${tag.id}`}>{tag.name}</label>
+          </div>
+        ))}
+
       </div>
       <div className=''>
         <InfiniteScroll
