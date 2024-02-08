@@ -5,6 +5,9 @@ export class BookRepository {
   async getBooks(page: number, pageSize: number): Promise<[Book[], number]> {
     const bookRepository = AppDataSource.getRepository(Book);
     return bookRepository.findAndCount({
+      relations: {
+        tags: true, // Make sure to load the tags relation
+      },
       take: pageSize,
       skip: (page - 1) * pageSize,
     });
@@ -12,7 +15,14 @@ export class BookRepository {
 
   async findById(id: number): Promise<Book | null> {
     const bookRepository = AppDataSource.getRepository(Book);
-    return bookRepository.findOneBy({id});;
+    return bookRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        tags: true, // Include the tags relation
+      },
+    });
   }
 
   async createBook(bookDetails: Partial<Book>): Promise<Book> {
