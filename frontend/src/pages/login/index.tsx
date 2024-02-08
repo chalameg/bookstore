@@ -6,6 +6,7 @@ import Navbar from "@/components/Layouts/Navbar";
 import Footer from "@/components/Layouts/Footer";
 import { MyContext } from "@/store/context";
 import Link from "next/link";
+import httpService from "@/httpService";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default function LoginPage() {
     event.preventDefault(); // Prevent form submission
 
     try {
-      const response = await axios.get(`http://localhost:3000/api/customers/findByUsername?username=${username}`);
+      const response = await httpService.get(`/customers/findByUsername?username=${username}`);
       
       // Assuming your API returns the user object on success
       if (response.status === 200 && response.data) {

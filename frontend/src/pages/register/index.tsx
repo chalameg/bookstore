@@ -5,6 +5,7 @@ import Navbar from "@/components/Layouts/Navbar";
 import Footer from "@/components/Layouts/Footer";
 import { MyContext } from "@/store/context";
 import Link from "next/link";
+import httpService from "@/httpService";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -22,7 +23,7 @@ export default function RegisterPage() {
 
     try {
       // Adjust the endpoint URL to your registration endpoint
-      const response = await axios.post(`http://localhost:3000/api/customers`, { username });
+      const response = await httpService.post(`/customers`, { username });
       
       if (response.status === 201 && response.data) {
         localStorage.setItem('username', username); // Store username in localStorage

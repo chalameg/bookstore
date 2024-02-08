@@ -2,6 +2,7 @@ import { Book } from "@/types/Book";
 import axios from "axios";
 import React, { FC, useEffect, useState } from "react";
 import BookCard from "./BookCard";
+import httpService from "@/httpService";
 
 interface Props {
   id: number;
@@ -16,7 +17,7 @@ const BookDetails: FC<Props> = ({ id }) => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/books/${id}`);
+      const response = await httpService.get(`/api/books/${id}`);
       console.log(response.data);
       setBook(response.data);
     } catch (error) {

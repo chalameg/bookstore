@@ -3,6 +3,7 @@ import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Book } from '@/types/Book';
 import BookCard from './UI/BookCard';
+import httpService from '@/httpService';
 
 const Books : FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -19,7 +20,7 @@ const Books : FC = () => {
   
   const fetchTags = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/tags'); 
+      const response = await httpService.get('/tags'); 
       setTags(response.data);
     } catch (error) {
       console.error('Failed to fetch tags', error);
@@ -30,7 +31,7 @@ const Books : FC = () => {
     const currentPage = newPage ?? page; // Use newPage if provided, otherwise use the current page state
     try {
       const tagsQuery = selectedTags.join(',');
-      const response = await axios.get(`http://localhost:3000/api/books?page=${currentPage}&tags=${tagsQuery}`);
+      const response = await httpService.get(`/books?page=${currentPage}&tags=${tagsQuery}`);
       if (currentPage === 1) {
         setBooks(response.data.data); // Reset books for the new filter
       } else {
