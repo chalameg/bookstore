@@ -3,6 +3,7 @@ import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Book } from '@/types/Book';
 import Link from 'next/link';
+import BookCard from './UI/BookCard';
 
 const Books : FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
@@ -42,8 +43,6 @@ const Books : FC = () => {
       console.error('Failed to fetch books', error);
     }
   };
-  
-  
 
   const handleTagChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const tagId = Number(event.target.value);
@@ -62,14 +61,13 @@ const Books : FC = () => {
   
 
   return (
-    <div className='flex gap-2'>
-      <div className='w-[25%] p-4 font-bold flex flex-col gap'>
+    <div className='flex flex-col sm:flex-row gap-2'>
+      <div className='w-full sm:w-[10vw] p-4 flex flex-col gap-2 border-0 sm:border-r-2'>
 
-        <span>Filters</span>
+        <span className='font-bold'>Filter By Tags:</span>
 
-        <div>Tags</div>
         {tags.map((tag, index) => (
-          <div key={index}>
+          <div key={index} className='flex gap-2'>
             <input
               type="checkbox"
               id={`tag-${index}`}
@@ -80,9 +78,9 @@ const Books : FC = () => {
             <label htmlFor={`tag-${tag.id}`}>{tag.name}</label>
           </div>
         ))}
-
       </div>
-      <div className=''>
+
+      <div className='w-[100vw] sm:w-[80vw]'>
         <InfiniteScroll
           dataLength={books.length}
           next={fetchBooks}
@@ -97,14 +95,7 @@ const Books : FC = () => {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-4 p-4">
             {books.map((book) => (
-              <div key={book.id} className="shadow-lg rounded-lg p-4 flex flex-col items-center w-full">
-                <Link href={`books/${book.id}`}>
-                  <img src={book.cover_image_url} alt={book.title} className="w-full h-64 object-cover rounded-md" />
-                </Link>
-                <h2 className="mt-2 text-lg font-bold">{book.title}</h2>
-                <p className="text-sm">Author: {book.writer}</p>
-                <p className="text-sm">Price: {book.point} points</p>
-              </div>
+              <BookCard key={book.id} book={book}/>
             ))}
           </div>
         </InfiniteScroll>

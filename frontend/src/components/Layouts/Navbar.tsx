@@ -31,7 +31,7 @@ const Navbar : FC = () => {
       <header className="px-4 sm:px-32  py-2 z-10 w-full bg-[#0F131FB2] fixed">
         <nav className="flex justify-between items-center max-container h-[68px] text-[white] text-sm">
           <a href="/" className="text-3xl font-bold">
-            BS
+            BOOKSTORE
           </a>
 
           <ul className="flex-1 flex justify-end items-center gap-16 max-lg:hidden">
