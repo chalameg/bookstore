@@ -17,7 +17,7 @@ const BookDetails: FC<Props> = ({ id }) => {
 
   const fetchBooks = async () => {
     try {
-      const response = await httpService.get(`/api/books/${id}`);
+      const response = await httpService.get(`/books/${id}`);
       console.log(response.data);
       setBook(response.data);
     } catch (error) {
