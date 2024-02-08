@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Book } from '@/types/Book';
-import Link from 'next/link';
 import BookCard from './UI/BookCard';
 
 const Books : FC = () => {
