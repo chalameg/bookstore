@@ -62,6 +62,29 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/books/{id}:
+ *   get:
+ *     summary: Get a book by ID
+ *     description: Retrieves detailed information about a book by its ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the book to retrieve
+ *     responses:
+ *       200:
+ *         description: A single book
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: Book not found
+ */
 router.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -83,13 +106,41 @@ router.get("/:id", async (req: Request, res: Response) => {
  * /api/books:
  *   post:
  *     summary: Add a new book
- *     description: Adds a new book to the bookstore.
+ *     description: Adds a new book to the bookstore. The ID is auto-generated and should not be provided.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Book'
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: The Great Gatsby
+ *                 description: Title of the book
+ *               writer:
+ *                 type: string
+ *                 example: F. Scott Fitzgerald
+ *                 description: Name of the writer
+ *               cover_image_url:
+ *                 type: string
+ *                 example: http://example.com/great-gatsby.jpg
+ *                 description: URL to the cover image of the book
+ *               point:
+ *                 type: number
+ *                 format: float
+ *                 example: 9.99
+ *                 description: Price points of the book
+ *               tags:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 description: Array of tag IDs associated with the book
+ *             required:
+ *               - title
+ *               - writer
+ *               - cover_image_url
+ *               - point
  *     responses:
  *       201:
  *         description: Book created successfully
@@ -124,7 +175,33 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-
+/**
+ * @swagger
+ * /api/books/{id}:
+ *   put:
+ *     summary: Update a book
+ *     description: Updates the details of an existing book.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Book ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Book'
+ *     responses:
+ *       200:
+ *         description: Book updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ */
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -141,6 +218,23 @@ router.put("/:id", async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/books/{id}:
+ *   delete:
+ *     summary: Delete a book
+ *     description: Deletes a book from the bookstore.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Book ID
+ *     responses:
+ *       204:
+ *         description: Book deleted successfully
+ */
 router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;

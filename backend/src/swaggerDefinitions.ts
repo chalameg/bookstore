@@ -5,12 +5,13 @@ export const bookSchema = {
       properties: {
         id: { type: "integer", description: "The book ID." },
         title: { type: "string", description: "The title of the book." },
-        author: { type: "string", description: "The author of the book." },
-        publishedYear: { type: "integer", description: "The year the book was published." },
-        genres: {
+        writer: { type: "string", description: "The writer of the book." },
+        cover_image_url: { type: "string", description: "cover image path." },
+        point: { type: "number", description: "price of the book." },
+        tags: {
           type: "array",
-          items: { type: "string" },
-          description: "A list of genres associated with the book."
+          items: { type: "integer" },
+          description: "A list of tags associated with the book."
         }
       },
     },

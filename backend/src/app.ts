@@ -2,12 +2,11 @@ import express, { Express } from 'express';
 import bookRouter from './controllers/bookController';
 import tagRouter from './controllers/tagController';
 import swaggerUi from 'swagger-ui-express';
-import swaggerJSDoc from 'swagger-jsdoc';
 import cors from 'cors';
 
 //database
 import { AppDataSource } from './data-source';
-import { bookSchema } from './swaggerDefinitions';
+import swaggerSpec from './swagger';
 
 const app: Express = express();
 
@@ -16,35 +15,7 @@ app.use(cors({
   origin: 'http://localhost:3001' // Adjust this to match the origin of your frontend app
 }));
 
-
 app.use(express.json());
-
-// Swagger setup
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Bookstore API',
-      version: '1.0.0',
-      description: 'A simple API for a bookstore application',
-    },
-    components: {
-      schemas: bookSchema
-    },
-    // Specify server if needed, e.g., for local development
-    servers: [
-      {
-        url: 'http://localhost:3000/api',
-      },
-    ],
-  },
-  // Path to the API docs
-  apis: ['${__dirname}/src/controllers/*.ts'],
-};
-
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
-
-console.log(swaggerSpec);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
