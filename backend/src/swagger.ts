@@ -1,5 +1,5 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import { bookSchema } from './swaggerDefinitions';
+import { bookSchema, customerSchema } from './swaggerDefinitions';
 
 const swaggerDefinition = {
   openapi: '3.0.0',
@@ -9,7 +9,10 @@ const swaggerDefinition = {
     description: 'This is a bookstore API application made with Express and documented with Swagger',
   },
   components: {
-        schemas: bookSchema
+    schemas: {
+        ...bookSchema,
+        ...customerSchema
+      }
     },
   servers: [
     {

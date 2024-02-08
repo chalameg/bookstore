@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 import bookRouter from './controllers/bookController';
 import tagRouter from './controllers/tagController';
+import customerRouter from './controllers/customerController';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 
@@ -22,6 +23,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Setup routes
 app.use('/api/books', bookRouter);
 app.use('/api/tags', tagRouter);
+app.use('/api/customers', customerRouter);
 
 // Example route to test if the server is working
 app.get('/', (req, res) => {
